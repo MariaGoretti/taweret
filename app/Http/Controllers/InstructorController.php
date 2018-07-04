@@ -7,28 +7,44 @@ use App\instructors_94910;
 
 class InstructorController extends Controller
 {
-     public function showinstructors(Request $req)
-	{
-		$data = instructors_94910::all();
-		return $data;
+$instructorArray = array();
+$response = array();
+
+	$query = "SELECT full_name, email, phone_number, gender, profile_photo FROM instructors_94910";
+	if($stmt = $con->prepare($query)){
+		$stmt->execute();
+		
+		//Bind fetched result to $ variables
+		$stmt->bind_result($full_name,$email,$phone_number, $gender, $profile_photo);
+		//Check for results		
+		if($stmt->fetch()){
+			$count=1;
+
+			$instructorArray["full_name"] = $full_name;
+			$instructorArray["email"] = $email;
+		    $instructorArray["phone_number"] = $phone_number;
+			$instructorArray["profile_photo"] = $profile_photo;
+			$instructorArray["gender"] = $gender;
+			
+			$response["success"] = 1;
+			$response["data"] = $instructorArray;
+		$count++;
+		
+		}else{
+			
+			$response["success"] = 0;
+			$response["message"] = "Instructor does not exist";
+		}
+		$stmt->close();
+
+
+	}else{
+		//When some error occurs
+		$response["success"] = 0;
+		$response["message"] = mysqli_error($con);
+		
 	}
 
-	public function saveInstructor(Request $req)
-	{
-		$full_name = $req['full_name'];
-		$phone_number = $req['phone_number'];
-		$email = $req['email'];
-		$gender = $req['gender'];
-		$profile_photo = $req['profile_photo'];
-
-		$instructors_94910 = new instructors_94910;
-		$instructors_94910->name = $name;
-		$instructors_94910->contact = $contact;
-		$instructors_94910->email = $email;
-		$instructors_94910->gender = $gender;
-		$instructors_94910->profile_photo = $profile_photo;
-		$instructors_94910->save();
-
-		return $instructors_94910->toJson();		
-	}
+//Display JSON response
+echo json_encode($response);
 }
