@@ -31,7 +31,8 @@ $response = array();
 		//Bind fetched result to $ variables
 		$stmt->bind_result($id, $full_name, $email, $phone_number, $gender, $profile_photo);
 		//Check for results		
-		if($stmt->fetch()){
+		if($stmt){
+			while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 			$instructorArray["id"] = $id;
 			$instructorArray["full_name"] = $full_name;
 			$instructorArray["email"] = $email;
@@ -41,7 +42,7 @@ $response = array();
 			
 			$response["success"] = 1;
 			$response["data"] = $instructorArray;
-		$count++;
+		}
 		
 		}else{
 			
