@@ -9,6 +9,18 @@ class InstructorController extends Controller
 {
 	public function getAll()
     {
+define('DB_USER', "taweret");
+define('DB_PASSWORD', "mariagoreti");
+define('DB_DATABASE', "taweret");
+define('DB_HOST', "db4free.net");
+ 
+$con = mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD,DB_DATABASE);
+ 
+// Check connection
+if(mysqli_connect_errno()){
+	echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
+
 $instructorArray = array();
 $response = array();
 
