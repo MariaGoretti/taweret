@@ -1,5 +1,8 @@
 <?php
 
+Route::get('/', function () {
+    return view('welcome');
+});
 
 //User
 Route::post('/register','UserController@register');
