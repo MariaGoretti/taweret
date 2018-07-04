@@ -7,6 +7,8 @@ use App\instructors_94910;
 
 class InstructorController extends Controller
 {
+	public function getAll()
+    {
 $instructorArray = array();
 $response = array();
 
@@ -47,4 +49,5 @@ $response = array();
 
 //Display JSON response
 echo json_encode($response);
+}
 }

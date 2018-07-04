@@ -15,7 +15,7 @@ Route::get('/show_session','SessionController@session');
 
 //Instructors
 //Route::post('/saveInstructor','InstructorController@saveInstructor');
-Route::get('/showinstructors','InstructorController');
+Route::get('/showinstructors','InstructorController@getAll');
 
 //Gym
 Route::post('/saveGym','LocationController@saveGym');
