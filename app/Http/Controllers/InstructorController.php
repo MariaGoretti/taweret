@@ -24,16 +24,15 @@ if(mysqli_connect_errno()){
 $instructorArray = array();
 $response = array();
 
-	$query = "SELECT full_name, email, phone_number, gender, profile_photo FROM instructors_94910";
+	$query = "SELECT id, full_name, email, phone_number, gender, profile_photo FROM instructors_94910";
 	if($stmt = $con->prepare($query)){
 		$stmt->execute();
 		
 		//Bind fetched result to $ variables
-		$stmt->bind_result($full_name,$email,$phone_number, $gender, $profile_photo);
+		$stmt->bind_result($id, $full_name, $email, $phone_number, $gender, $profile_photo);
 		//Check for results		
 		if($stmt->fetch()){
-			$count=1;
-
+			$instructorArray["id"] = $id;
 			$instructorArray["full_name"] = $full_name;
 			$instructorArray["email"] = $email;
 		    $instructorArray["phone_number"] = $phone_number;
