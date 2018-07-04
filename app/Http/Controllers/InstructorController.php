@@ -24,7 +24,7 @@ if(mysqli_connect_errno()){
 $instructorArray = array();
 $response = array();
 
-	$query = "SELECT * FROM instructors_94910";
+	$query = "SELECT id, full_name, email, phone_number, gender, profile_photo FROM instructors_94910";
 	if($stmt = $con->prepare($query)){
 		$stmt->execute();
 		
@@ -39,10 +39,10 @@ $response = array();
 		    $instructorArray["phone_number"] = $phone_number;
 			$instructorArray["profile_photo"] = $profile_photo;
 			$instructorArray["gender"] = $gender;
-			
+			 }
 			$response["success"] = 1;
 			$response["data"] = $instructorArray;
-		}
+		
 		
 		}else{
 			
