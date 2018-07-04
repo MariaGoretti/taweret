@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\instructors_94910;
+use App\Http\Controllers\PDO;
 
 class InstructorController extends Controller
 {
