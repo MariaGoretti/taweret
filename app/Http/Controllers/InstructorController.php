@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\instructors_94910;
-use App\Http\Controllers\PDO;
 
 class InstructorController extends Controller
 {
@@ -33,7 +32,7 @@ $response = array();
 		$stmt->bind_result($id, $full_name, $email, $phone_number, $gender, $profile_photo);
 		//Check for results		
 		if($stmt){
-			while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+			while($row = $stmt->fetch()) {
 			$instructorArray["id"] = $id;
 			$instructorArray["full_name"] = $full_name;
 			$instructorArray["email"] = $email;
