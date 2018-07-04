@@ -24,7 +24,7 @@ if(mysqli_connect_errno()){
 $instructorArray = array();
 $response = array();
 
-	$query = "SELECT id, full_name, email, phone_number, gender, profile_photo FROM instructors_94910";
+	$query = "SELECT * FROM instructors_94910";
 	if($stmt = $con->prepare($query)){
 		$stmt->execute();
 		
@@ -47,7 +47,7 @@ $response = array();
 		}else{
 			
 			$response["success"] = 0;
-			$response["message"] = "Instructor does not exist";
+			$response["message"] = "No instructors available";
 		}
 		$stmt->close();
 
