@@ -24,7 +24,7 @@ if(mysqli_connect_errno()){
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
      $response = array();
- 
+ if(isset($_POST['first_name'])&&isset($_POST['last_name'])&&isset($_POST['email_address'])&&isset($_POST['password'])){
 //Check for mandatory parameters
     $first_name = $_POST['first_name'];
     $last_name = $_POST['last_name'];
@@ -54,6 +54,10 @@ if(mysqli_connect_errno()){
         //Some error while inserting
         $response["success"] = 0;
         $response["message"] = mysqli_error($con);
+}else{
+    //Mandatory parameters are missing
+    $response["success"] = 0;
+    $response["message"] = "Missing mandatory parameters";
 }
 
 //Displaying JSON response
