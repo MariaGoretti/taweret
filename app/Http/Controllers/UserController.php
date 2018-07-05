@@ -49,12 +49,12 @@ if(mysqli_connect_errno()){
             //Some error while inserting
             $response["success"] = 0;
             $response["message"] = "Error while adding user";
-        }                   
+        } }                  
     else{
         //Some error while inserting
         $response["success"] = 0;
         $response["message"] = mysqli_error($con);
-}else{
+}}else{
     //Mandatory parameters are missing
     $response["success"] = 0;
     $response["message"] = "Missing mandatory parameters";
