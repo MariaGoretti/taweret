@@ -61,7 +61,7 @@ echo json_encode($response);
 }
 
 //login
-public function loginUser{
+public function loginUser(){
     $userArray = array();
 $response = array();
 //Check for mandatory parameters email_address && password
