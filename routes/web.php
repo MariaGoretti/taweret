@@ -5,7 +5,7 @@ Route::get('/', function () {
 });
 
 //User
-Route::post('/register','UserController@register');
+Route::post('/register','UserController@addUser');
 Route::post('/login','UserController@login');
 Route::get('/showusers', 'UserController@showUsers');
 
@@ -14,7 +14,6 @@ Route::post('/save_session','SessionController@save');
 Route::get('/show_session','SessionController@session');
 
 //Instructors
-//Route::post('/saveInstructor','InstructorController@saveInstructor');
 Route::get('/showinstructors','InstructorController@getAll');
 
 //Gym

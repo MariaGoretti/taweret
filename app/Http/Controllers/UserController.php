@@ -10,55 +10,50 @@ use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
-     public function register(Request $req)
+    public function addUser()
     {
-        $validatedData = $req->validate([
-        'first_name'=>'required',
-            'last_name'=>'required',
-            'email'=>'required|unique:users_94910',
-            'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
-            'password_confirmation' => 'min:6',
+     $response = array();
+ 
+//Check for mandatory parameters
+if(isset($_POST['first_name'])&&isset($_POST['last_name'])&&isset($_POST['email_address'])&&isset($_POST['password'])&&isset($_POST['confirm_password'])){
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
+    $email_address = $_POST['email_address'];
+    $password = md5($_POST['password']);
+    
+    //Query to insert a user
+    $query = "INSERT INTO users_94910(first_name, last_name, email_address, password) VALUES (?,?,?,?)";
+    //Prepare the query
+    if($stmt = $con->prepare($query)){
+        //Bind parameters
+        $stmt->bind_param("ssis",$first_name,$last_name,$email_address,$password);
+        //Exceting MySQL statement
+        $stmt->execute();
 
-        ]);
+        //Check if data got inserted
+        if($stmt->affected_rows == 1){
+            $response["success"] = 1;           
+            $response["message"] = "User Successfully Added";           
+            
+        }else{
+            //Some error while inserting
+            $response["success"] = 0;
+            $response["message"] = "Error while adding user";
+        }                   
+    }else{
+        //Some error while inserting
+        $response["success"] = 0;
+        $response["message"] = mysqli_error($con);
+}
+}else{
+        //Some error while inserting
+            $response["success"] = 0;
+            $response["message"] = "Missing manadatory parameters";
         
-
-        $first_name = $req['first_name'];
-        $last_name = $req['last_name'];
-        $email = $req['email'];
-        $password = $req['password'];
-
-        $users_94910 = new users_94910;
-        $users_94910->first_name =$first_name;
-        $users_94910->last_name = $last_name;
-        $users_94910->email = $email;
-        $users_94910->password = Hash::make($password);
-        $users_94910->save();
-
-        return new UserResource(
-            $users_94910
-        );
     }
 
-    public function login(Request $req)
-    {
-        
-        $email=$req['email'];
-        $password=$req['password'];
+//Displaying JSON response
+echo json_encode($response);
 
-        $users_94910 = users_94910::where('email',$email)->firstOrFail();
-
-        if(Hash::check($password, $users_94910->password))
-        {
-            return $users_94910->toJson();
-        }
-        return null;
-    }
-
-    public function showUsers(Request $req)
-    {
-        $data = users_94910::all();
-
-        return $data->toJson();
-    }
-
+ }
 }
