@@ -27,7 +27,7 @@ $response = array();
 
     $query = "SELECT session_id, exercise, sets, location, session_date FROM sessions_94910 WHERE user_id=?";
     if($stmt = $con->prepare($query)){
-        $stmt->bind_param("ssisi",$user_id,$session_id, $exercise, $sets, $location, $session_date);
+        $stmt->bind_param("i",$user_id);
         $stmt->execute();
         //Bind fetched result to $ variables
         $stmt->bind_result($session_id, $exercise, $sets, $location, $session_date);

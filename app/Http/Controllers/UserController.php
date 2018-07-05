@@ -50,7 +50,7 @@ if(mysqli_connect_errno()){
             $response["success"] = 0;
             $response["message"] = "Error while adding user";
         }                   
-    }else{
+    else{
         //Some error while inserting
         $response["success"] = 0;
         $response["message"] = mysqli_error($con);
