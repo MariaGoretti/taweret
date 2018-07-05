@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function addUser()
     {
-    define('DB_USER', "taweret");
+define('DB_USER', "taweret");
 define('DB_PASSWORD', "mariagoreti");
 define('DB_DATABASE', "taweret");
 define('DB_HOST', "db4free.net");
@@ -23,11 +23,9 @@ $con = mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD,DB_DATABASE);
 if(mysqli_connect_errno()){
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
-
      $response = array();
  
 //Check for mandatory parameters
-if(isset($_POST['first_name'])&&isset($_POST['last_name'])&&isset($_POST['email_address'])&&isset($_POST['password'])&&isset($_POST['confirm_password'])){
     $first_name = $_POST['first_name'];
     $last_name = $_POST['last_name'];
     $email_address = $_POST['email_address'];
@@ -57,15 +55,9 @@ if(isset($_POST['first_name'])&&isset($_POST['last_name'])&&isset($_POST['email_
         $response["success"] = 0;
         $response["message"] = mysqli_error($con);
 }
-}else{
-        //Some error while inserting
-            $response["success"] = 0;
-            $response["message"] = "Missing manadatory parameters";
-        
-    }
 
 //Displaying JSON response
 echo json_encode($response);
+}
 
  }
-}
