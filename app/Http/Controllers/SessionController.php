@@ -8,27 +8,58 @@ use App\sessions_94910;
 
 class SessionController extends Controller
 {
-    public function save(Request $req)
+  public function getAll()
     {
-    	$exercise = $req['exercise'];
-    	$sets = $req['sets'];
-    	$location = $req['location'];
-    	$date = $req['date'];
+define('DB_USER', "taweret");
+define('DB_PASSWORD', "mariagoreti");
+define('DB_DATABASE', "taweret");
+define('DB_HOST', "db4free.net");
+ 
+$con = mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD,DB_DATABASE);
+ 
+// Check connection
+if(mysqli_connect_errno()){
+    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
 
-    	$sessions_94910 = new sessions_94910;
-    	$sessions_94910->exercisee = $exercise;
-    	$sessions_94910->sets = $sets;
-    	$sessions_94910->location = $location;
-    	$sessions_94910->date = $date;
-    	$sessions_94910->save();
+$sessionArray = array();
+$response = array();
 
-    	return $sessions_94910;
+    $query = "SELECT session_id, exercise, sets, location, session_date FROM sessions_94910 WHERE user_id=?";
+    if($stmt = $con->prepare($query)){
+        $stmt->bind_param("ssisi",$user_id);
+        $stmt->execute();
+        //Bind fetched result to $ variables
+        $stmt->bind_result($session_id, $exercise, $sets, $location, $session_date);
+        //Check for results     
+        if($stmt){
+            while($row = $stmt->fetch()) {
+            $sessionArray["session_id"] = $session_id;
+            $sessionArray["exercise"] = $exercise;
+            $sessionArray["sets"] = $sets;
+            $sessionArray["location"] = $location;
+            $sessionArray["session_date"] = $session_date;
+             }
+            $response["success"] = 1;
+            $response["data"] = $sessionArray;
+        
+        
+        }else{
+            
+            $response["success"] = 0;
+            $response["message"] = "No sessions yet";
+        }
+        $stmt->close();
+
+
+    }else{
+        //When some error occurs
+        $response["success"] = 0;
+        $response["message"] = mysqli_error($con);
+        
     }
 
-    public function session(Request $req)
-    {
-    	$data = sessions_94910::all();
-        return $data;
-
-    }
+//Display JSON response
+echo json_encode($response);
+  }
 }

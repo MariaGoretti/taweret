@@ -15,6 +15,7 @@ class CreateSessions94910Table extends Migration
     {
         Schema::create('sessions_94910', function (Blueprint $table) {
             $table->increments('session_id');
+            $table->integer('user_id');
             $table->string('exercise');
             $table->string('sets');
             $table->string('location');

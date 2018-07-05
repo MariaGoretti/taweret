@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\instructors_94910;
+use DB;
 
 class InstructorController extends Controller
 {
@@ -61,5 +62,5 @@ $response = array();
 
 //Display JSON response
 echo json_encode($response);
-}
+ }
 }
