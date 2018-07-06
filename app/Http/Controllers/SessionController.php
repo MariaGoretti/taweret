@@ -58,4 +58,50 @@ if($stmt = $con->prepare($query)){
 //Display JSON response
 echo json_encode($response);
   }
+
+
+
+  public function addSession()
+    {
+        $response = array();
+ if(isset($_POST['sets'])&&isset($_POST['location'])&&isset($_POST['session_date'])&&isset($_POST['exercise'])){
+//Check for mandatory parameters
+    $sets = $_POST['sets'];
+    $location = $_POST['location'];
+    $date = $_POST['date'];
+    $exercise = $_POST['exercise'];
+    
+    
+    $query = "INSERT INTO sessions_94910(exercise, sets, location, session_date) VALUES (?,?,?,?)";
+    //Prepare the query
+    if($stmt = $con->prepare($query)){
+        //Bind parameters
+        $stmt->bind_param("ssis",$exercise,$sets,$location,$session_date);
+        //Exceting MySQL statement
+        $stmt->execute();
+
+        //Check if data got inserted
+        if($stmt->affected_rows == 1){
+            $response["success"] = 1;           
+            $response["message"] = "Session Successfully Added";           
+            
+        }else{
+            //Some error while inserting
+            $response["success"] = 0;
+            $response["message"] = "Error while adding session";
+        } }                  
+    else{
+        //Some error while inserting
+        $response["success"] = 0;
+        $response["message"] = mysqli_error($con);
+}}else{
+    //Mandatory parameters are missing
+    $response["success"] = 0;
+    $response["message"] = "Missing mandatory parameters";
+}
+
+//Displaying JSON response
+echo json_encode($response);
+}
+    }
 }
