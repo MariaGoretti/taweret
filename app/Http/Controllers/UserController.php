@@ -69,9 +69,9 @@ public function loginUser(){
 $loginArray = array();
 $response = array();
 
-if(isset($_GET['email_address'])&&isset($_GET['password'])){
-    $email_address = $_GET['email_address'];
-    $password = md5($_GET['password']);
+if(isset($_POST['email_address'])&&isset($_POST['password'])){
+    $email_address = $_POST['email_address'];
+    $password = md5($_POST['password']);
     
     $query = "SELECT email_address, password FROM users_94910 WHERE email_address=? && password=?";
     if($stmt = $con->prepare($query)){
