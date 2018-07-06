@@ -33,7 +33,7 @@ $response = array();
 		$stmt->bind_result($id, $full_name, $email, $phone_number, $gender, $profile_photo);
 		//Check for results		
 		if($stmt){
-			while($row = $stmt->fetch()) {
+			while($row = $stmt->fetchAll()) {
 			$instructorArray["id"] = $id;
 			$instructorArray["full_name"] = $full_name;
 			$instructorArray["email"] = $email;
