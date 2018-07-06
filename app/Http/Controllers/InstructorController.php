@@ -22,45 +22,43 @@ if(mysqli_connect_errno()){
 	echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
+$query = "SELECT id, full_name, email, phone_number, gender, profile_photo FROM instructors_94910";
+$result = array();
 $instructorArray = array();
 $response = array();
-
-	$query = "SELECT id, full_name, email, phone_number, gender, profile_photo FROM instructors_94910";
-	if($stmt = $con->prepare($query)){
-		$stmt->execute();
+//Prepare the query
+if($stmt = $con->prepare($query)){
+	$stmt->execute();
+	
+	$stmt->bind_result($id,$full_name, $email,$phone_number,$gender,$profile_photo);
+	//Fetch 1 row at a time					
+	while($stmt->fetch()){
 		
-		//Bind fetched result to $ variables
-		$stmt->bind_result($id, $full_name, $email, $phone_number, $gender, $profile_photo);
-		//Check for results		
-		if($stmt){
-			while($row = $stmt->fetchAll()) {
-			$instructorArray["id"] = $id;
-			$instructorArray["full_name"] = $full_name;
-			$instructorArray["email"] = $email;
-		    $instructorArray["phone_number"] = $phone_number;
-			$instructorArray["profile_photo"] = $profile_photo;
-			$instructorArray["gender"] = $gender;
-			 }
-			$response["success"] = 1;
-			$response["data"] = $instructorArray;
-		
-		
-		}else{
-			
-			$response["success"] = 0;
-			$response["message"] = "No instructors available";
-		}
-		$stmt->close();
-
-
-	}else{
-		//When some error occurs
-		$response["success"] = 0;
-		$response["message"] = mysqli_error($con);
+		$instructorArray["id"] = $id;
+		$instructorArray["full_name"] = $full_name;
+		$instructorArray["email"] = $email;
+		$instructorArray["phone_number"] = $phone_number;
+		$instructorArray["gender"] = $gender;
+		$instructorArray["profile_photo"] = $profile_photo;
+		$result[]=$instructorArray;
 		
 	}
-
+	$stmt->close();
+	$response["success"] = 1;
+	$response["data"] = $result;
+	
+ 
+}else{
+	//Some error while fetching data
+	$response["success"] = 0;
+	$response["message"] = mysqli_error($con);
+		
+	
+}
 //Display JSON response
 echo json_encode($response);
+
+
  }
 }
+
