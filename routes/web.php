@@ -8,7 +8,7 @@ Route::post('/register','UserController@addUser');
 Route::post('/login','UserController@loginUser');
 //Route::get('/showusers', 'UserController@showUsers');
 
-Route::post('/save_session','SessionController@save');
+Route::post('/add_session','SessionController@addSession');
 Route::get('/show_sessions','SessionController@getAll');
 
 Route::get('/showinstructors','InstructorController@getAll');
