@@ -17,7 +17,7 @@ class CreateUsers94910Table extends Migration
             $table->increments('user_id');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('email')->unique();
+            $table->string('email_address')->unique();
             $table->string('password');
             $table->string('profile_photo')->nullable()->default('https://qph.fs.quoracdn.net/main-qimg-7ca600a4562ef6a81f4dc2bd5c99fee9-c');
             $table->string('preferred_location')->nullable();

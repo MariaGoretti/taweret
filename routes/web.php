@@ -18,3 +18,7 @@ Route::get('/showGym','LocationController@showGym');
 
 
 ?>
+
+
+
+             

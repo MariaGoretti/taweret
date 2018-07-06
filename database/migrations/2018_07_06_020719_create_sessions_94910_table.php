@@ -15,11 +15,12 @@ class CreateSessions94910Table extends Migration
     {
         Schema::create('sessions_94910', function (Blueprint $table) {
             $table->increments('session_id');
-            $table->integer('user_id');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('user_id')->on('users_94910')->onDelete('restrict')->onUpdate('cascade');
             $table->string('exercise');
             $table->string('sets');
             $table->string('location');
-            $table->string('date');
+            $table->string('session_date');
             $table->timestamps();
         });
     }
