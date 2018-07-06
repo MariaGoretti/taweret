@@ -66,48 +66,49 @@ echo json_encode($response);
 
 //login
 public function loginUser(){
-    $userArray = array();
+$loginArray = array();
 $response = array();
-//Check for mandatory parameters email_address && password
-if(isset($_POST['email_address'])&& isset($_POST['password'])){
-    $email_address = $_POST['email_address'];
-    $password = md5($_POST['password']);
-    //Query to fetch user details
-    $query = "SELECT * FROM users_94910 WHERE email_address=? && password=?";
+
+if(isset($_GET['email_address'])&&isset($_GET['password'])){
+    $email_address = $_GET['email_address'];
+    $password = md5($_GET['password']);
+    
+    $query = "SELECT email_address, password FROM users_94910 WHERE email_address=? && password=?";
     if($stmt = $con->prepare($query)){
-        //Bind parameters to the query
-        $stmt->bind_param("i",$email_address,$password);
+        
+        $stmt->bind_param("i",$email_address, $password);
         $stmt->execute();
-        //Bind fetched result to $ variables
-        $stmt->bind_result($user_id, $first_name, $last_name, $email_address, $password);
-        //Check for results     
+        
+        $stmt->bind_result($email_address,$password);
+           
         if($stmt->fetch()){
-            //Populate the user array
-            $userArray["user_id"] = $user_id;
-            $userArray["first_name"] = $first_name;
-            $userArray["last_name"] = $last_name;
-            $userArray["email_address"] = $email_address;
-            $userArray["password"] = $password;
+        
+            $loginArray["email_address"] = $email_address;
+            $loginArray["password"] = $password;
+            
             $response["success"] = 1;
+            //$response["data"] = $loginArray;
+        
         
         }else{
-            //When user is not found/ enters invalid username or password
+            
             $response["success"] = 0;
-            $response["message"] = "Error: Either you haven't registered yet or have entered an incorrect username or password";
+            $response["message"] = "Error: Either you haven't registered yet or have input an incorrect username or password";
         }
         $stmt->close();
-
+ 
+ 
     }else{
-        //When some error occurs
+        //Whe some error occurs
         $response["success"] = 0;
-        $response["message"] = mysqli_error($con);  
+        $response["message"] = mysqli_error($con);
+        
     }
-    
+ 
 }else{
-    //When the mandatory parameters are missing
-    $response["success"] = 0;
-    $response["message"] = "Missing parameters";
     
+    $response["success"] = 0;
+    $response["message"] = "Missing either email address or password";
 }
 //Display JSON response
 echo json_encode($response);
